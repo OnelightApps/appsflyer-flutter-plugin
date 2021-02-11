@@ -7,6 +7,7 @@ class AppsflyerSdk {
   EventChannel _eventChannel;
   static AppsflyerSdk _instance;
   final MethodChannel _methodChannel;
+  Map _afOpenAttribution;
 
   AppsFlyerOptions afOptions;
   Map mapOptions;
@@ -168,6 +169,12 @@ class AppsflyerSdk {
         _afOpenAttributionStreamController.close();
       });
     }
+  }
+
+  Map cachedAppOpenAttribution() => _afOpenAttribution;
+
+  void clearCachedAppOpenAttribution() {
+    _afOpenAttribution = null;
   }
 
   Stream<Map> get appOpenAttributionStream {
@@ -364,6 +371,8 @@ class AppsflyerSdk {
               !_afGCDStreamController.isClosed) {
             _afGCDStreamController.sink.add(decodedJSON);
           } else {
+            _afOpenAttribution = decodedJSON;
+
             if ((afOptions != null && afOptions.showDebug) ||
                 (mapOptions != null &&
                     mapOptions[AppsflyerConstants.AF_IS_DEBUG])) {
