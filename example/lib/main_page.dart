@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -25,7 +26,9 @@ class MainPageState extends State<MainPage> {
         afDevKey: DotEnv().env["DEV_KEY"],
         appId: DotEnv().env["APP_ID"],
         showDebug: true);
-    _appsflyerSdk = AppsflyerSdk(options);
+    _appsflyerSdk = AppsflyerSdk(options,
+        registerConversionDataCallback: true,
+        registerOnAppOpenAttributionCallback: true);
     _appsflyerSdk.onAppOpenAttribution((res) {
       print("res: " + res.toString());
       setState(() {
@@ -56,9 +59,7 @@ class MainPageState extends State<MainPage> {
           ),
         ),
         body: FutureBuilder<dynamic>(
-            future: _appsflyerSdk.initSdk(
-                registerConversionDataCallback: true,
-                registerOnAppOpenAttributionCallback: true),
+            future: _appsflyerSdk.initSdk(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());

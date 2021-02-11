@@ -34,8 +34,6 @@ void main() {
 
   test('check initSdk call', () async {
     await instance.initSdk(
-      registerConversionDataCallback: true,
-      registerOnAppOpenAttributionCallback: true,
     );
 
     expect('initSdk', selectedMethod);
