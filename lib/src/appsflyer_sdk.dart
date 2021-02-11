@@ -14,9 +14,7 @@ class AppsflyerSdk {
 
   ///Returns the [AppsflyerSdk] instance, initialized with a custom options
   ///provided by the user
-  factory AppsflyerSdk(options,
-      {bool registerConversionDataCallback = false,
-      bool registerOnAppOpenAttributionCallback = false}) {
+  factory AppsflyerSdk(options) {
     if (_instance == null) {
       MethodChannel methodChannel =
           const MethodChannel(AppsflyerConstants.AF_METHOD_CHANNEL);
@@ -33,15 +31,7 @@ class AppsflyerSdk {
             mapOptions: options);
       }
 
-      if (registerConversionDataCallback)
-        _instance._registerConversionDataCallback();
-      if (registerOnAppOpenAttributionCallback)
-        _instance._registerOnAppOpenAttributionCallback();
-
-      if (registerConversionDataCallback ||
-          registerOnAppOpenAttributionCallback) {
-        _instance._registerGCDListener();
-      }
+      _instance._registerGCDListener();
     }
     return _instance;
   }
@@ -206,8 +196,14 @@ class AppsflyerSdk {
   }
 
   ///initialize the SDK, using the options initialized from the constructor|
-  Future<dynamic> initSdk() async {
+  Future<dynamic> initSdk(
+      {bool registerConversionDataCallback = false,
+      bool registerOnAppOpenAttributionCallback = false}) async {
     return Future.delayed(Duration(seconds: 0)).then((_) {
+      if (registerConversionDataCallback) _registerConversionDataCallback();
+      if (registerOnAppOpenAttributionCallback)
+        _registerOnAppOpenAttributionCallback();
+
       Map<String, dynamic> validatedOptions;
       if (mapOptions != null) {
         validatedOptions = _validateMapOptions(mapOptions);
