@@ -372,8 +372,6 @@ class AppsflyerSdk {
               !_afGCDStreamController.isClosed) {
             _afGCDStreamController.sink.add(decodedJSON);
           } else {
-            _afOpenAttribution = decodedJSON;
-
             if ((afOptions != null && afOptions.showDebug) ||
                 (mapOptions != null &&
                     mapOptions[AppsflyerConstants.AF_IS_DEBUG])) {
@@ -386,6 +384,8 @@ class AppsflyerSdk {
               !_afOpenAttributionStreamController.isClosed) {
             _afOpenAttributionStreamController.sink.add(decodedJSON);
           } else {
+            _afOpenAttribution = decodedJSON;
+
             if ((afOptions != null && afOptions.showDebug) ||
                 (mapOptions != null &&
                     mapOptions[AppsflyerConstants.AF_IS_DEBUG])) {
